@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "a92c3091-8d2b-42be-bc77-e8e04b406e21",
+		"name": "FlipPlay REST API - Demo Modul 4",
+		"description": "Postman Collection resmi untuk pengujian Demo Modul 4 Praktikum Web (FlipPlay Laravel 12 API).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000/api",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Media (CRUD Standar)",
+			"item": [
+				{
+					"name": "[Happy] 1. Get All Media",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/media",
+							"host": ["{{baseUrl}}"],
+							"path": ["media"]
+						}
+					}
+				},
+				{
+					"name": "[Happy] 2. Search Media by Title",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/media?title=Titan",
+							"host": ["{{baseUrl}}"],
+							"path": ["media"],
+							"query": [
+								{ "key": "title", "value": "Titan" }
+							]
+						}
+					}
+				},
+				{
+					"name": "[Happy] 3. Create Media (201 Created)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Solo Leveling\",\n    \"type\": \"Anime\",\n    \"genre\": \"Action, Fantasy\",\n    \"status\": \"Ongoing\",\n    \"episodes\": 12,\n    \"score\": 8.5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/media",
+							"host": ["{{baseUrl}}"],
+							"path": ["media"]
+						}
+					}
+				},
+				{
+					"name": "[Happy] 4. Get Media Detail (with Users)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/media/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["media", "1"]
+						}
+					}
+				},
+				{
+					"name": "[Happy] 5. Update Media",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"score\": 9.5,\n    \"status\": \"Finished\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/media/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["media", "1"]
+						}
+					}
+				},
+				{
+					"name": "[Happy] 6. Delete Media",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/media/4",
+							"host": ["{{baseUrl}}"],
+							"path": ["media", "4"]
+						}
+					}
+				},
+				{
+					"name": "[Failure] 7. Create Media - Empty Validation (422)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"\",\n    \"genre\": \"\",\n    \"status\": \"InvalidStatus\",\n    \"episodes\": 0,\n    \"score\": 15\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/media",
+							"host": ["{{baseUrl}}"],
+							"path": ["media"]
+						}
+					}
+				},
+				{
+					"name": "[Failure] 8. Create Media - Duplicate Title (422)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Attack on Titan\",\n    \"type\": \"Anime\",\n    \"genre\": \"Action\",\n    \"status\": \"Finished\",\n    \"episodes\": 89,\n    \"score\": 9.0\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/media",
+							"host": ["{{baseUrl}}"],
+							"path": ["media"]
+						}
+					}
+				},
+				{
+					"name": "[Failure] 9. Get Media Not Found (404)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/media/999",
+							"host": ["{{baseUrl}}"],
+							"path": ["media", "999"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. User Collection (Custom Action)",
+			"item": [
+				{
+					"name": "[Happy] 1. Get User Collection",
+					"request": {
+						"method": "GET",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/1/collection",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "1", "collection"]
+						}
+					}
+				},
+				{
+					"name": "[Happy] 2. Add Media to User Collection (Attach)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"media_id\": 3\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/1/collection",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "1", "collection"]
+						}
+					}
+				},
+				{
+					"name": "[Failure] 3. Add Duplicate Media to Collection (422)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json" },
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"media_id\": 3\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/1/collection",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "1", "collection"]
+						}
+					}
+				},
+				{
+					"name": "[Happy] 4. Remove Media from User Collection (Detach)",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{ "key": "Accept", "value": "application/json" }
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users/1/collection/3",
+							"host": ["{{baseUrl}}"],
+							"path": ["users", "1", "collection", "3"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
